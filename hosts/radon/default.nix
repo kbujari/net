@@ -9,6 +9,8 @@
     ../../modules/prometheus.nix
   ];
 
+  networking.firewall.enable = false;
+
   environment.systemPackages = with pkgs; [
     sbctl
   ];
