@@ -4,10 +4,15 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "sdhci_pci" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/etc/secureboot";
+  };
   boot.swraid = {
     enable = true;
     mdadmConf = ''
@@ -22,6 +27,7 @@
     fsType = "tmpfs";
     options = [ "defaults" "size=2G" "mode=755" ];
   };
+
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/64B3-2F12";
     fsType = "vfat";
