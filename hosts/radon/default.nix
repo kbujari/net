@@ -1,12 +1,13 @@
 { config, pkgs, ... }: {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules/users
+    ../../modules/sshd
+  ];
 
   environment.systemPackages = with pkgs; [
     sbctl
   ];
-
-  users.mutableUsers = false;
-  users.users.root.initialPassword = "alpine";
 
   networking.hostName = "radon";
   networking.hostId = "71023948";
