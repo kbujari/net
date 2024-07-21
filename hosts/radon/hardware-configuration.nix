@@ -47,11 +47,11 @@
     fsType = "zfs";
   };
 
-  fileSystems."/etc/nixos" = {
-    device = "/persist/etc/nixos";
-    fsType = "none";
-    options = [ "bind" ];
-  };
+  # fileSystems."/etc/nixos" = {
+  #   device = "/persist/etc/nixos";
+  #   fsType = "none";
+  #   options = [ "bind" ];
+  # };
 
   # fileSystems."/var/log" = {
   #   device = "/persist/var/log";
