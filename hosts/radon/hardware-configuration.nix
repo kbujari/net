@@ -11,7 +11,7 @@
   boot.extraModulePackages = [ ];
   boot.lanzaboote = {
     enable = true;
-    pkiBundle = "/etc/secureboot";
+    pkiBundle = "/persist/etc/secureboot";
   };
   boot.swraid = {
     enable = true;
