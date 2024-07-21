@@ -45,15 +45,16 @@
     options = [ "bind" ];
   };
 
-  fileSystems."/var/log" = {
-    device = "/persist/var/log";
-    fsType = "none";
-    options = [ "bind" ];
-  };
+  # fileSystems."/var/log" = {
+  #   device = "/persist/var/log";
+  #   fsType = "none";
+  #   options = [ "bind" ];
+  # };
 
-  fileSystems."/var/lib" = {
-    device = "/persist/var/lib";
-    fsType = "none";
-    options = [ "bind" ];
-  };
+  # fileSystems."/var/lib" = {
+  #   device = "/persist/var/lib";
+  #   fsType = "none";
+  #   options = [ "bind" ];
+  # };
+
 }
