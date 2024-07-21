@@ -3,6 +3,10 @@
     ./hardware-configuration.nix
     ../../modules/users
     ../../modules/sshd
+    ../../modules/nginx.nix
+    ../../modules/grafana.nix
+    ../../modules/node_exporter.nix
+    ../../modules/prometheus.nix
   ];
 
   environment.systemPackages = with pkgs; [
