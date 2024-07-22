@@ -11,6 +11,7 @@ in
   };
 
   users.groups.grafana.members = [ "nginx" ];
+  systemd.services.nginx.serviceConfig.ProtectHome = false;
   services.nginx.virtualHosts.${cfg.settings.server.domain} = {
     locations."/" = {
       proxyPass = "http://unix:/${socket}";
