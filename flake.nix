@@ -13,7 +13,8 @@
   outputs = inputs @ { self, nixpkgs, lanzaboote, ... }:
     let
       inherit (self) outputs;
-    in {
+    in
+    {
       nixosConfigurations = {
         radon = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
