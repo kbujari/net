@@ -9,12 +9,11 @@ in
     settings.server.protocol = "socket";
     provision = {
       enable = true;
-      datasources = [{
+      datasources.settings.datasources = [{
         name = "Prometheus";
         type = "prometheus";
         url = "http://localhost:9090";
         access = "proxy";
-        isDefault = true;
       }];
     };
   };
