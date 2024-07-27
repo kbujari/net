@@ -1,6 +1,16 @@
-{ config, ... }:
+{ config, pkgs, lib, ... }:
 let
   inherit (config.services) grafana;
+  dashboards = {
+    "node-exporter-full" = {
+      id = 1860;
+      revision = 37;
+    };
+    "prometheus-stats" = {
+      id = 3662;
+      revision = 2;
+    };
+  };
 in
 {
   services.grafana = {
@@ -14,6 +24,44 @@ in
         type = "prometheus";
         url = "http://localhost:9090";
         access = "proxy";
+      }];
+      dashboards.settings.providers = [{
+        name = "default";
+        type = "file";
+        disableDeletion = true;
+        updateIntervalSeconds = 10;
+        options = {
+          path = pkgs.writeTextDir "dashboards" (
+            lib.concatStringsSep "\n" (
+              lib.mapAttrsToList
+                (name: dashboard:
+                  builtins.toFile "${name}.json" (builtins.toJSON {
+                    annotations.list = [ ];
+                    editable = true;
+                    gnetId = dashboard.id;
+                    graphTooltip = 0;
+                    id = null;
+                    links = [ ];
+                    panels = [ ];
+                    schemaVersion = 16;
+                    style = "dark";
+                    tags = [ ];
+                    templating.list = [ ];
+                    time = {
+                      from = "now-6h";
+                      to = "now";
+                    };
+                    timepicker = { };
+                    timezone = "browser";
+                    title = name;
+                    uid = name;
+                    version = dashboard.revision;
+                  })
+                )
+                dashboards
+            )
+          );
+        };
       }];
     };
   };
