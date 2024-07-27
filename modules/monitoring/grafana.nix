@@ -16,7 +16,7 @@ in
   services.nginx.virtualHosts."192.168.2.113" = {
     locations."/" = {
       proxyPass = "http://unix:/${socket}";
-      # proxyWebsockets = true;
+      proxyWebsockets = true;
     };
   };
 }
