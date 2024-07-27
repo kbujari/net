@@ -1,16 +1,10 @@
 { config, pkgs, lib, ... }:
 let
   inherit (config.services) grafana;
-  dashboards = {
-    "node-exporter-full" = {
-      id = 1860;
-      revision = 37;
-    };
-    "prometheus-stats" = {
-      id = 3662;
-      revision = 2;
-    };
-  };
+  dashboardFiles = [
+    ./dashboards/node-exporter-full.json
+    ./dashboards/prometheus-stats.json
+  ];
 in
 {
   services.grafana = {
@@ -31,36 +25,12 @@ in
         disableDeletion = true;
         updateIntervalSeconds = 10;
         options = {
-          path = pkgs.writeTextDir "dashboards" (
-            lib.concatStringsSep "\n" (
-              lib.mapAttrsToList
-                (name: dashboard:
-                  builtins.toFile "${name}.json" (builtins.toJSON {
-                    annotations.list = [ ];
-                    editable = true;
-                    gnetId = dashboard.id;
-                    graphTooltip = 0;
-                    id = null;
-                    links = [ ];
-                    panels = [ ];
-                    schemaVersion = 16;
-                    style = "dark";
-                    tags = [ ];
-                    templating.list = [ ];
-                    time = {
-                      from = "now-6h";
-                      to = "now";
-                    };
-                    timepicker = { };
-                    timezone = "browser";
-                    title = name;
-                    uid = name;
-                    version = dashboard.revision;
-                  })
-                )
-                dashboards
-            )
-          );
+          path = pkgs.runCommand "dashboards" { } ''
+            mkdir -p $out
+            ${lib.concatMapStrings (file: ''
+              cp ${file} $out/
+            '') dashboardFiles}
+          '';
         };
       }];
     };
