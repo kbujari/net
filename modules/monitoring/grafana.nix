@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  inherit (config.services) grafana ;
+  inherit (config.services) grafana;
 in
 {
   services.grafana = {
