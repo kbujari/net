@@ -1,7 +1,6 @@
 { config, ... }:
 let
-  cfg = config.services.grafana;
-  socket = toString cfg.settings.server.socket;
+  inherit (config.services) grafana ;
 in
 {
   services.grafana = {
@@ -15,7 +14,7 @@ in
   # services.nginx.virtualHosts.${cfg.settings.server.domain} = {
   services.nginx.virtualHosts."192.168.2.113" = {
     locations."/" = {
-      proxyPass = "http://unix:/${socket}";
+      proxyPass = "http://unix:/${toString grafana.settings.server.socket}";
       proxyWebsockets = true;
     };
   };

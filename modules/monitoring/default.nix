@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ config, pkgs, ... }: {
   services.prometheus.exporters = {
     smartctl = {
       enable = true;
@@ -8,4 +8,6 @@
       enabledCollectors = [ "systemd" ];
     };
   };
+
+  environment.systemPackages = with pkgs; [ smartmontools ];
 }
