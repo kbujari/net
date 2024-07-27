@@ -1,11 +1,17 @@
 { config, lib, pkgs, ... }: {
   services.prometheus.exporters = {
     smartctl = {
-      enable = true;
+            enable = true;
+      devices = [ "all" ];
+      smartctlArgs = "-a";
+      interval = "60s";
+      openFirewall = true;
+      user = "root";  # Required to read all disks
     };
     node = {
       enable = true;
       enabledCollectors = [ "systemd" ];
+      openFirewall = true;
     };
   };
 

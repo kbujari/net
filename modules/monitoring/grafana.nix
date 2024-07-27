@@ -7,6 +7,16 @@ in
     enable = true;
     settings.server.domain = "grafana.4kb.net";
     settings.server.protocol = "socket";
+    provision = {
+      enable = true;
+      datasources = [{
+        name = "Prometheus";
+        type = "prometheus";
+        url = "http://localhost:9090";
+        access = "proxy";
+        isDefault = true;
+      }];
+    };
   };
 
   users.groups.grafana.members = [ "nginx" ];
