@@ -9,6 +9,12 @@ in
     scrapeConfigs = [
       {
         job_name = "node";
+        relabel_configs = [{
+          source_labels = [ "__address__" ];
+          regex = "(.*):[0-9]+";
+          target_label = "instance";
+          replacement = "$1";
+        }];
         static_configs = [{
           targets = [
             "radon:${toString config.services.prometheus.exporters.node.port}"
