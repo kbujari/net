@@ -1,5 +1,5 @@
 {
-  description = "NixOS configuration with flakes";
+  description = "Internal network and programming lab";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
@@ -11,15 +11,16 @@
 
   outputs = { self, nixpkgs, ... } @ inputs:
     let
-      inherit (self) outputs;
-
       forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
+
+      inherit (self) outputs;
+      inherit (nixpkgs.lib) nixosSystem;
     in
     {
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}."nixpkgs-fmt");
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
       nixosConfigurations = {
-        radon = nixpkgs.lib.nixosSystem {
+        radon = nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/radon.nix ];

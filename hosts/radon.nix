@@ -1,4 +1,4 @@
-{ config, modulesPath, lib, ... }: {
+{ config, modulesPath, ... }: {
   system.stateVersion = "24.05";
 
   # redundant efi system partitions
@@ -21,11 +21,20 @@
     enable = true;
   };
 
-  networking.hostName = "radon";
-  networking.hostId = "71023948";
+  config.networking = {
+    hostName = "radon";
+    hostId = "71023948";
+    vlans = {
+      vlan4 = { id = 4; interface = "enp2s0"; };
+    };
+
+    interfaces.vlan4.ipv4.addresses = [{
+      address = "10.54.4.1";
+      prefixLength = 24;
+    }];
+  };
 
   imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
     ../modules/boot
 
     ../modules/users
@@ -35,6 +44,7 @@
     ../modules/monitoring/grafana.nix
     ../modules/monitoring/prometheus.nix
 
+    ../modules/base.nix
     ../modules/nginx.nix
   ];
 }

@@ -1,5 +1,7 @@
-{ config, inputs, lib, ... }: {
+{ config, inputs, lib, modulesPath, ... }: {
   imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+
     inputs.lanzaboote.nixosModules.lanzaboote
     ./filesystems.nix
   ];
