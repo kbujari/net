@@ -1,17 +1,5 @@
 { config, modulesPath, lib, ... }: {
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-    ../modules/boot
-
-    ../modules/users
-    ../modules/sshd
-
-    ../modules/monitoring
-    ../modules/monitoring/grafana.nix
-    ../modules/monitoring/prometheus.nix
-
-    ../modules/nginx.nix
-  ];
+  system.stateVersion = "24.05";
 
   # redundant efi system partitions
   boot.swraid = {
@@ -36,5 +24,17 @@
   networking.hostName = "radon";
   networking.hostId = "71023948";
 
-  system.stateVersion = "24.11";
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+    ../modules/boot
+
+    ../modules/users
+    ../modules/sshd
+
+    ../modules/monitoring
+    ../modules/monitoring/grafana.nix
+    ../modules/monitoring/prometheus.nix
+
+    ../modules/nginx.nix
+  ];
 }
