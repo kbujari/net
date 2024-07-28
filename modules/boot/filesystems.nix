@@ -1,4 +1,4 @@
-{
+{ config, ... }: {
   fileSystems."/" = {
     device = "none";
     fsType = "tmpfs";
@@ -14,4 +14,7 @@
     device = "zroot/local/persist";
     fsType = "zfs";
   };
+
+  services.zfs.autoScrub.enable = true;
+  services.zfs.trim.enable = true;
 }

@@ -27,6 +27,12 @@
     options = [ "fmask=0022" "dmask=0022" ];
   };
 
+  boot.zfs.extraPools = [ "radon" ];
+  networking.firewall.allowedTCPPorts = [ 2049 ];
+  services.nfs.server = {
+    enable = true;
+  };
+
   networking.hostName = "radon";
   networking.hostId = "71023948";
 
