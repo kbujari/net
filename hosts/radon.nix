@@ -21,7 +21,7 @@
     enable = true;
   };
 
-  config.networking = {
+  networking = {
     hostName = "radon";
     hostId = "71023948";
     vlans = {
