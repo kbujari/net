@@ -48,8 +48,7 @@ in
   users.groups.grafana.members = [ "nginx" ];
   systemd.services.nginx.serviceConfig.ProtectHome = false;
   services.nginx.virtualHosts."${grafana.settings.server.domain}" = {
-    enableACME = true;
-    acmeRoot = null;
+    useACMEHost = "4kb.net";
     locations."/" = {
       proxyPass = "http://unix:/${toString grafana.settings.server.socket}";
       proxyWebsockets = true;
