@@ -52,6 +52,9 @@ in
     locations."/" = {
       proxyPass = "http://unix:/${toString grafana.settings.server.socket}";
       proxyWebsockets = true;
+      addSSL = true;
+      enableACME = true;
+      acmeRoot = null;
     };
   };
 }
