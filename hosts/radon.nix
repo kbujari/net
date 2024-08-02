@@ -1,4 +1,4 @@
-{ config, modulesPath, ... }: {
+{ config, ... }: {
   system.stateVersion = "24.05";
 
   # redundant efi system partitions
@@ -25,13 +25,17 @@
     hostName = "radon";
     hostId = "71023948";
     vlans = {
-      vlan4 = { id = 4; interface = "enp2s0"; };
+      vlan4 = {
+        id = 4;
+        interface = "enp2s0";
+      };
     };
-
-    interfaces.vlan4.ipv4.addresses = [{
-      address = "10.54.4.1";
-      prefixLength = 24;
-    }];
+    interfaces.vlan4.ipv4.addresses = [
+      {
+        address = "10.54.4.1";
+        prefixLength = 24;
+      }
+    ];
   };
 
   imports = [

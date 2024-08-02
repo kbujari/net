@@ -1,4 +1,8 @@
-{ config, pkgs, lib, ... }:
+{ config
+, pkgs
+, lib
+, ...
+}:
 let
   inherit (config.services) grafana;
   dashboardFiles = [
@@ -13,26 +17,31 @@ in
     settings.server.protocol = "socket";
     provision = {
       enable = true;
-      datasources.settings.datasources = [{
-        name = "Prometheus";
-        type = "prometheus";
-        url = "http://localhost:9090";
-        access = "proxy";
-      }];
-      dashboards.settings.providers = [{
-        name = "default";
-        type = "file";
-        disableDeletion = true;
-        updateIntervalSeconds = 10;
-        options = {
-          path = pkgs.runCommand "dashboards" { } ''
-            mkdir -p $out
-            ${lib.concatMapStrings (file: ''
-              cp ${file} $out/
-            '') dashboardFiles}
-          '';
-        };
-      }];
+      datasources.settings.datasources = [
+        {
+          name = "Prometheus";
+          type = "prometheus";
+          url = "http://localhost:9090";
+          access = "proxy";
+        }
+      ];
+      dashboards.settings.providers = [
+        {
+          name = "default";
+          type = "file";
+          disableDeletion = true;
+          updateIntervalSeconds = 10;
+          options = {
+            path = pkgs.runCommand "dashboards" { } ''
+              mkdir -p $out
+              ${lib.concatMapStrings (file: ''
+                  cp ${file} $out/
+                '')
+                dashboardFiles}
+            '';
+          };
+        }
+      ];
     };
   };
 

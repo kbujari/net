@@ -9,12 +9,16 @@
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, ... } @ inputs:
+  outputs =
+    { self
+    , nixpkgs
+    , ...
+    }:
     let
-      forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
-
-      inherit (self) outputs;
+      inherit (self) inputs outputs;
       inherit (nixpkgs.lib) nixosSystem;
+
+      forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
     in
     {
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
