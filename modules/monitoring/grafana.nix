@@ -47,14 +47,12 @@ in
 
   users.groups.grafana.members = [ "nginx" ];
   systemd.services.nginx.serviceConfig.ProtectHome = false;
-  # services.nginx.virtualHosts.${cfg.settings.server.domain} = {
-  services.nginx.virtualHosts."192.168.2.113" = {
+  services.nginx.virtualHosts."${grafana.settings.server.domain}" = {
+    enableACME = true;
+    acmeRoot = null;
     locations."/" = {
       proxyPass = "http://unix:/${toString grafana.settings.server.socket}";
       proxyWebsockets = true;
-      addSSL = true;
-      enableACME = true;
-      acmeRoot = null;
     };
   };
 }
