@@ -41,10 +41,12 @@ in
     };
   };
 
+  # give nginx access to read the grafana socket
   users.groups.grafana.members = [ "nginx" ];
   systemd.services.nginx.serviceConfig.ProtectHome = false;
+
   services.nginx.virtualHosts."${grafana.settings.server.domain}" = {
-    forceSSL = true;
+    addSSL = true;
     useACMEHost = "4kb.net";
     locations."/" = {
       proxyPass = "http://unix:/${toString grafana.settings.server.socket}";
