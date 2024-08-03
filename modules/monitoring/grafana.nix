@@ -27,7 +27,9 @@ in
         options = {
           path = pkgs.runCommand "dashboards" { } ''
             mkdir -p $out
-            ${lib.concatMapStrings (file: '' cp ${file} $out/ '') dashboards }
+            ${lib.concatMapStrings (file: ''
+              cp ${file} $out/
+            '') dashboards }
           '';
         };
       }];
