@@ -36,20 +36,23 @@
     }];
   };
 
-  age.secrets.porkbun.file = ../secrets/porkbun.age;
+  age.secrets.porkbun = {
+    file = ../secrets/porkbun.age;
+    owner = "acme";
+  };
 
-  imports = [
-    ../modules/boot
+    imports = [
+      ../modules/boot
 
-    ../modules/users
-    ../modules/sshd
+      ../modules/users
+      ../modules/sshd
 
-    ../modules/monitoring
-    ../modules/monitoring/grafana.nix
-    ../modules/monitoring/prometheus.nix
+      ../modules/monitoring
+      ../modules/monitoring/grafana.nix
+      ../modules/monitoring/prometheus.nix
 
-    ../modules/base.nix
-    ../modules/nginx.nix
-    inputs.agenix.nixosModules.default
-  ];
-}
+      ../modules/base.nix
+      ../modules/nginx.nix
+      inputs.agenix.nixosModules.default
+    ];
+  }
