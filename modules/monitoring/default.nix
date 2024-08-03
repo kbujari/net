@@ -14,6 +14,4 @@
       ];
     };
   };
-
-  environment.systemPackages = with pkgs; [ smartmontools ];
 }
