@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ config, inputs, ... }: {
   system.stateVersion = "24.05";
 
   # redundant efi system partitions
@@ -36,6 +36,8 @@
     }];
   };
 
+  age.secrets.porkbun.file = ../secrets/porkbun.age;
+
   imports = [
     ../modules/boot
 
@@ -48,5 +50,6 @@
 
     ../modules/base.nix
     ../modules/nginx.nix
+    inputs.agenix.nixosModules.default
   ];
 }

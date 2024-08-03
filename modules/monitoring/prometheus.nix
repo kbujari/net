@@ -13,13 +13,11 @@
             replacement = "$1";
           }
         ];
-        static_configs = [
-          {
-            targets = [
-              "radon:${toString config.services.prometheus.exporters.node.port}"
-            ];
-          }
-        ];
+        static_configs = [{
+          targets = [
+            "radon:${toString config.services.prometheus.exporters.node.port}"
+          ];
+        }];
       }
     ];
   };

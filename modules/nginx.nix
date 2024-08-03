@@ -4,7 +4,7 @@
     defaults = {
       email = "dev+certs@4kb.net";
       dnsProvider = "porkbun";
-      credentialsFile = "/run/porkbun";
+      credentialsFile = config.age.secrets.porkbun.path;
       reloadServices = [ "nginx" ];
     };
 

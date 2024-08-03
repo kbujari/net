@@ -5,6 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     hardware.url = "github:nixos/nixos-hardware";
 
+    agenix.url = "github:ryantm/agenix";
     lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
   };
