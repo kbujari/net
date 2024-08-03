@@ -30,12 +30,10 @@
         interface = "enp2s0";
       };
     };
-    interfaces.vlan4.ipv4.addresses = [
-      {
-        address = "10.54.4.1";
-        prefixLength = 24;
-      }
-    ];
+    interfaces.vlan4.ipv4.addresses = [{
+      address = "10.54.4.1";
+      prefixLength = 24;
+    }];
   };
 
   imports = [

@@ -9,11 +9,7 @@
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , ...
-    }:
+  outputs = { self, nixpkgs, ... }:
     let
       inherit (self) inputs outputs;
       inherit (nixpkgs.lib) nixosSystem;
