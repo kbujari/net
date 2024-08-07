@@ -1,5 +1,16 @@
 # net
 
+```
+                    _
+                   | |
+__  __ _ __    ___ | |_
+\ \/ /| '_ \  / _ \| __|
+ >  < | | | ||  __/| |_
+/_/\_\|_| |_| \___| \__|
+
+
+```
+
 Purely declarative infrastructure for my personal testing lab and computers!
 Rather than individually managing a collection of computers,
 this project defines a central network that hosts hook into to join the lab.
