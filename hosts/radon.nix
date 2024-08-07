@@ -1,19 +1,5 @@
-{ config, inputs, ... }: {
+{ config, inputs, outputs, modulesPath, ... }: {
   system.stateVersion = "24.05";
-
-  # redundant efi system partitions
-  boot.swraid = {
-    enable = true;
-    mdadmConf = ''
-      ARRAY /dev/md/esp metadata=1.0 UUID=50131eb1:c81d075b:343e0ea3:bf90c8d1
-    '';
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/64B3-2F12";
-    fsType = "vfat";
-    options = [ "fmask=0022" "dmask=0022" ];
-  };
 
   boot.zfs.extraPools = [ "radon" ];
   networking.firewall.allowedTCPPorts = [ 2049 ];
@@ -23,7 +9,6 @@
 
   networking = {
     hostName = "radon";
-    hostId = "71023948";
     vlans = {
       vlan4 = {
         id = 4;
@@ -41,18 +26,26 @@
     owner = "acme";
   };
 
-    imports = [
-      ../modules/boot
+  xnet = {
+    disk = {
+      enable = true;
+      devices = [ "nvme0n1" "nvme1n1" ];
+    };
+  };
 
-      ../modules/users
-      ../modules/sshd
+  imports = [
+    outputs.nixosModules.xnet
+    inputs.agenix.nixosModules.default
+    (modulesPath + "/installer/scan/not-detected.nix")
 
-      ../modules/monitoring
-      ../modules/monitoring/grafana.nix
-      ../modules/monitoring/prometheus.nix
+    ../modules/users
+    ../modules/sshd
+    ../modules/gitserver
 
-      ../modules/base.nix
-      ../modules/nginx.nix
-      inputs.agenix.nixosModules.default
-    ];
-  }
+    ../modules/monitoring
+    ../modules/monitoring/grafana.nix
+    ../modules/monitoring/prometheus.nix
+
+    ../modules/nginx.nix
+  ];
+}
