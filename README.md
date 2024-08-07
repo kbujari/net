@@ -2,13 +2,10 @@
 
 ```
                     _
-                   | |
 __  __ _ __    ___ | |_
 \ \/ /| '_ \  / _ \| __|
  >  < | | | ||  __/| |_
 /_/\_\|_| |_| \___| \__|
-
-
 ```
 
 Purely declarative infrastructure for my personal testing lab and computers!
