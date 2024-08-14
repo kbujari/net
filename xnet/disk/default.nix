@@ -62,7 +62,7 @@ in
         mode = mkIf (builtins.length cfg.devices > 1) "mirror";
         options = {
           acltype = "posixacl";
-          ashift = 12;
+          ashift = "12";
           atime = "off";
           autotrim = "on";
           canmount = "off";
