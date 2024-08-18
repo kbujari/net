@@ -6,9 +6,6 @@
 
     agenix.url = "github:ryantm/agenix";
 
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
-    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
-
     disko.url = "github:nix-community/disko/v1.6.1";
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };

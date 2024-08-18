@@ -29,7 +29,10 @@
   xnet = {
     disk = {
       enable = true;
-      devices = [ "nvme0n1" "nvme1n1" ];
+      devices = [
+        "nvme0n1"
+        # "nvme1n1"
+      ];
     };
   };
 

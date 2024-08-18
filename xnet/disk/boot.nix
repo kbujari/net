@@ -1,20 +1,13 @@
-{ config, inputs, lib, ... }: {
-  imports = [ inputs.lanzaboote.nixosModules.lanzaboote ];
+{ config, lib, ... }: {
 
   boot = {
-    loader.systemd-boot.enable = lib.mkForce false;
+    loader.systemd-boot.enable = true;
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "sdhci_pci" ];
     kernelModules = [ "kvm-intel" "kvm-amd" ];
-
-    lanzaboote = {
-      enable = true;
-      pkiBundle = "/persist/certs/secureboot";
-    };
+    swraid.mdadmConf = ''
+      MAILADDR = nobody@example.com
+    '';
   };
-
-  systemd.tmpfiles.rules = [
-    "L /etc/secureboot - - - - /persist/certs/secureboot"
-  ];
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
