@@ -63,7 +63,7 @@ in
         options = {
           # acltype = "posixacl";
           ashift = "12";
-          atime = "off";
+          # atime = "off";
           autotrim = "on";
           canmount = "off";
           compression = "on";
