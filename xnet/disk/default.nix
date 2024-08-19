@@ -71,7 +71,7 @@ in
           normalization = "formD";
           relatime = "off";
           xattr = "sa";
-          "com.sun:auto-snapshot" = "false";
+          # "com.sun:auto-snapshot" = "false";
         };
 
         datasets = {
