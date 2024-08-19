@@ -1,6 +1,17 @@
 { config, lib, inputs, ... }:
 let
   cfg = config.xnet.disk;
+  commonOpts = {
+    acltype = "posixacl";
+    atime = "off";
+    canmount = "off";
+    compression = "on";
+    normalization = "formD";
+    relatime = "off";
+    xattr = "sa";
+    "com.sun:auto-snapshot" = "false";
+  };
+
   inherit (lib) mkOption mkIf types;
 in
 {
@@ -61,30 +72,21 @@ in
         type = "zpool";
         mode = mkIf (builtins.length cfg.devices > 1) "mirror";
         options = {
-          # acltype = "posixacl";
           ashift = "12";
-          # atime = "off";
           autotrim = "on";
-          # canmount = "off";
-          # compression = "on";
-          # mountpoint = "none";
-          # normalization = "formD";
-          # relatime = "off";
-          # xattr = "sa";
-          # "com.sun:auto-snapshot" = "false";
         };
 
         datasets = {
           "nix" = {
             type = "zfs_fs";
             mountpoint = "/nix";
-            options.mountpoint = "legacy";
+            options = { mountpoint = "legacy"; } // commonOpts;
           };
 
           "persist" = {
             type = "zfs_fs";
             mountpoint = "/persist";
-            options.mountpoint = "legacy";
+            options = { mountpoint = "legacy"; } // commonOpts;
           };
 
           "persist/data" = {
