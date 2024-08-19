@@ -1,7 +1,7 @@
 { config, inputs, outputs, modulesPath, ... }: {
   system.stateVersion = "24.05";
 
-  boot.zfs.extraPools = [ "radon" ];
+  # boot.zfs.extraPools = [ "radon" ];
   networking.firewall.allowedTCPPorts = [ 2049 ];
   services.nfs.server = {
     enable = true;
@@ -43,12 +43,12 @@
 
     ../modules/users
     ../modules/sshd
-    ../modules/gitserver
+    # ../modules/gitserver
 
-    ../modules/monitoring
-    ../modules/monitoring/grafana.nix
-    ../modules/monitoring/prometheus.nix
+    # ../modules/monitoring
+    # ../modules/monitoring/grafana.nix
+    # ../modules/monitoring/prometheus.nix
 
-    ../modules/nginx.nix
+    # ../modules/nginx.nix
   ];
 }
