@@ -67,7 +67,7 @@ in
           autotrim = "on";
           # canmount = "off";
           # compression = "on";
-          mountpoint = "none";
+          # mountpoint = "none";
           normalization = "formD";
           relatime = "off";
           xattr = "sa";
