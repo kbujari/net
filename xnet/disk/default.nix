@@ -61,7 +61,7 @@ in
         type = "zpool";
         mode = mkIf (builtins.length cfg.devices > 1) "mirror";
         options = {
-          acltype = "posixacl";
+          # acltype = "posixacl";
           ashift = "12";
           atime = "off";
           autotrim = "on";
