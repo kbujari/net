@@ -68,9 +68,9 @@ in
           # canmount = "off";
           # compression = "on";
           # mountpoint = "none";
-          normalization = "formD";
-          relatime = "off";
-          xattr = "sa";
+          # normalization = "formD";
+          # relatime = "off";
+          # xattr = "sa";
           # "com.sun:auto-snapshot" = "false";
         };
 
