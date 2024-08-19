@@ -66,7 +66,7 @@ in
           # atime = "off";
           autotrim = "on";
           # canmount = "off";
-          compression = "on";
+          # compression = "on";
           mountpoint = "none";
           normalization = "formD";
           relatime = "off";
