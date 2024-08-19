@@ -65,7 +65,7 @@ in
           ashift = "12";
           # atime = "off";
           autotrim = "on";
-          canmount = "off";
+          # canmount = "off";
           compression = "on";
           mountpoint = "none";
           normalization = "formD";
