@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
-    agenix.url = "github:ryantm/agenix";
-
     disko.url = "github:nix-community/disko/v1.6.1";
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
