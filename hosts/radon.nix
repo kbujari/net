@@ -21,11 +21,6 @@
     }];
   };
 
-  # age.secrets.porkbun = {
-  #   file = ../secrets/porkbun.age;
-  #   owner = "acme";
-  # };
-
   xnet = {
     disk = {
       enable = true;
@@ -35,7 +30,6 @@
 
   imports = [
     outputs.nixosModules.xnet
-    # inputs.agenix.nixosModules.default
 
     ../modules/nginx.nix
     ../modules/users

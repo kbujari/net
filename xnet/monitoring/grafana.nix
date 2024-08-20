@@ -42,7 +42,7 @@
 
   services.nginx.virtualHosts."${config.services.grafana.settings.server.domain}" = {
     locations."/" = {
-      proxyPass = "http://unix:/${toString config.services.grafana.settings.server.socket}";
+      proxyPass = "http://unix:/${toString config.services.grafana.settings.server.socket}/";
     };
   };
 }
