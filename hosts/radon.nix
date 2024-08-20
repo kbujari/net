@@ -32,7 +32,6 @@
     outputs.nixosModules.xnet
 
     ../modules/nginx.nix
-    ../modules/users
     ../modules/sshd
     ../xnet/monitoring
   ];
