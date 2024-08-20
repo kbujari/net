@@ -42,10 +42,9 @@
 
   services.nginx.virtualHosts."${config.services.grafana.settings.server.domain}" = {
     addSSL = true;
-    useACMEHost = "4kb.net";
+    # useACMEHost = "4kb.net";
     locations."/" = {
       proxyPass = "http://unix:/${toString config.services.grafana.settings.server.socket}";
-      proxyWebsockets = true;
     };
   };
 }
