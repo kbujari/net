@@ -1,8 +1,4 @@
 { config, lib, pkgs, ... }:
-let
-  fet = pkgs.fetchurl { };
-
-in
 {
   services.grafana.provision = {
     enable = true;
@@ -31,15 +27,25 @@ in
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 3000 ];
   services.grafana = {
     enable = true;
     settings.server.domain = "grafana.4kb.net";
-    settings.server.http_addr = "0.0.0.0";
-    # settings.server.protocol = "socket";
+    settings.server.protocol = "socket";
     settings."auth.anonymous" = {
       enabled = true;
       org_role = "Admin";
+    };
+  };
+
+  users.groups.grafana.members = [ "nginx" ];
+  systemd.services.nginx.serviceConfig.ProtectHome = false;
+
+  services.nginx.virtualHosts."${config.services.grafana.settings.server.domain}" = {
+    addSSL = true;
+    useACMEHost = "4kb.net";
+    locations."/" = {
+      proxyPass = "http://unix:/${toString config.services.grafana.settings.server.socket}";
+      proxyWebsockets = true;
     };
   };
 }

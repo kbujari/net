@@ -35,8 +35,7 @@
 
   imports = [
     outputs.nixosModules.xnet
-    inputs.agenix.nixosModules.default
-    (modulesPath + "/installer/scan/not-detected.nix")
+    # inputs.agenix.nixosModules.default
 
     ../modules/users
     ../modules/sshd
