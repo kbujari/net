@@ -21,6 +21,7 @@ in
   services.grafana.provision.dashboards.settings.providers = [
     {
       name = "Node Exprter Full";
+      type = "file";
       options.path = fet.outPath;
     }
   ];
