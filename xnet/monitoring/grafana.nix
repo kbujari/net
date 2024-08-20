@@ -16,7 +16,7 @@ in
 
     dashboards.settings.providers = [{
       name = "Fetched Dashboards";
-      option.path = "/etc/grafana/dashboards";
+      options.path = "/etc/grafana/dashboards";
     }];
   };
 
