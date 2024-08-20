@@ -6,6 +6,7 @@ in
   imports = [
     ./disk
     ./net
+    ./monitoring
   ];
 
   i18n.defaultLocale = mkDefault "en_US.UTF-8";

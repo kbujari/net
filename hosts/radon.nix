@@ -21,18 +21,15 @@
     }];
   };
 
-  age.secrets.porkbun = {
-    file = ../secrets/porkbun.age;
-    owner = "acme";
-  };
+  # age.secrets.porkbun = {
+  #   file = ../secrets/porkbun.age;
+  #   owner = "acme";
+  # };
 
   xnet = {
     disk = {
       enable = true;
-      devices = [
-        "nvme0n1"
-        # "nvme1n1"
-      ];
+      devices = [ "nvme0n1" ];
     };
   };
 
@@ -43,12 +40,6 @@
 
     ../modules/users
     ../modules/sshd
-    # ../modules/gitserver
-
-    # ../modules/monitoring
-    # ../modules/monitoring/grafana.nix
-    # ../modules/monitoring/prometheus.nix
-
-    # ../modules/nginx.nix
+    ../xnet/monitoring
   ];
 }

@@ -4,7 +4,6 @@ let
   commonOpts = {
     acltype = "posixacl";
     atime = "off";
-    # canmount = "off";
     compression = "on";
     normalization = "formD";
     relatime = "off";
