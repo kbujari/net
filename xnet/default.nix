@@ -7,6 +7,7 @@ in
     ./disk
     ./net
     ./monitoring
+    ./users
   ];
 
   i18n.defaultLocale = mkDefault "en_US.UTF-8";
