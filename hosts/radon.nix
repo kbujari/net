@@ -37,6 +37,7 @@
     outputs.nixosModules.xnet
     # inputs.agenix.nixosModules.default
 
+    ../modules/nginx.nix
     ../modules/users
     ../modules/sshd
     ../xnet/monitoring
