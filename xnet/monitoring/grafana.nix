@@ -14,18 +14,16 @@ in
       editable = false;
     }];
 
-    dashboards = {
-      # name = "Fetched Dashboards";
-      # type = "file";
-      # disableDeletion = true;
-      # updateIntervalSeconds = 3600; # Optional: update every hour
-      # options = {
+    dashboards.settings.providers = [{
+      name = "Fetched Dashboards";
       path = "/etc/grafana/dashboards";
-    };
+    }];
   };
 
   environment.etc = {
     "grafana/dashboards/node-exporter.json" = {
+      user = "grafana";
+      group = "grafana";
       source = pkgs.fetchurl {
         url = "https://grafana.com/api/dashboards/1860/revisions/37/download";
         hash = "sha256-1DE1aaanRHHeCOMWDGdOS1wBXxOF84UXAjJzT5Ek6mM=";
