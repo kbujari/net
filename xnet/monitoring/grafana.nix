@@ -41,7 +41,7 @@
   systemd.services.nginx.serviceConfig.ProtectHome = false;
 
   services.nginx.virtualHosts."${config.services.grafana.settings.server.domain}" = {
-    addSSL = true;
+    # addSSL = true;
     # useACMEHost = "4kb.net";
     locations."/" = {
       proxyPass = "http://unix:/${toString config.services.grafana.settings.server.socket}";
