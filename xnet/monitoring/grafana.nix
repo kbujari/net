@@ -14,24 +14,25 @@ in
       editable = false;
     }];
 
-    dashboards.settings.providers = [{
-      name = "Fetched Dashboards";
-      type = "file";
-      disableDeletion = true;
-      updateIntervalSeconds = 3600; # Optional: update every hour
-      options = {
-        path = pkgs.symlinkJoin {
-          name = "grafana-dashboards";
-          paths = [
-            (pkgs.fetchurl {
-              name = "node-exporter-dashboard.json";
-              url = "https://grafana.com/api/dashboards/1860/revisions/37/download";
-              hash = "sha256-1DE1aaanRHHeCOMWDGdOS1wBXxOF84UXAjJzT5Ek6mM=";
-            })
-          ];
-        };
+    dashboards = {
+      # name = "Fetched Dashboards";
+      # type = "file";
+      # disableDeletion = true;
+      # updateIntervalSeconds = 3600; # Optional: update every hour
+      # options = {
+      path = pkgs.symlinkJoin {
+        name = "grafana-dashboards";
+        paths = [
+          (pkgs.fetchurl {
+            name = "node-exporter-dashboard.json";
+            url = "https://grafana.com/api/dashboards/1860/revisions/37/download";
+            hash = "sha256-1DE1aaanRHHeCOMWDGdOS1wBXxOF84UXAjJzT5Ek6mM=";
+          })
+        ];
       };
-    }];
+    };
+    # };
+    # }];
   };
 
   networking.firewall.allowedTCPPorts = [ 3000 ];
