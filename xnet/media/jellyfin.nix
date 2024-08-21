@@ -14,11 +14,14 @@
       intel-media-sdk # QSV up to 11th gen
     ];
   };
+
   services.jellyfin = {
     enable = true;
   };
 
   environment.systemPackages = with pkgs; [ jellyfin jellyfin-web jellyfin-ffmpeg ];
+
+  users.users.jellyfin.extraGroups = [ "media" ];
 
   services.nginx.virtualHosts."mov.web.4kb.net" = {
     locations."/" = {
