@@ -1,4 +1,5 @@
 { config, ... }: {
+  imports = [ ./radicale.nix ];
   users.mutableUsers = false;
   users.users.root = {
     initialPassword = "radon";
