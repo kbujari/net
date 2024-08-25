@@ -1,6 +1,4 @@
 { config, pkgs, inputs, ... }: {
-  imports = [ inputs.disko.nixosModules.disko ];
-
   services.gitDaemon = {
     enable = true;
     exportAll = true;
