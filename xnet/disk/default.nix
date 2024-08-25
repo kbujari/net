@@ -77,10 +77,21 @@ in
         };
 
         datasets = {
-          "nix" = {
+          "local" = {
+            type = "zfs_fs";
+            options = commonOpts;
+          };
+
+          "local/nix" = {
             type = "zfs_fs";
             mountpoint = "/nix";
-            options = { mountpoint = "legacy"; } // commonOpts;
+            options.mountpoint = "legacy";
+          };
+
+          "local/certs" = {
+            type = "zfs_fs";
+            mountpoint = "/certs";
+            options.mountpoint = "legacy";
           };
 
           "persist" = {
