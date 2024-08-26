@@ -76,7 +76,7 @@ in
         options = {
           ashift = "12";
           autotrim = "on";
-          mountpoint = "none";
+          canmount = "off";
         };
 
         datasets = {
