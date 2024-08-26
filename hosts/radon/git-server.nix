@@ -9,6 +9,7 @@
     "persist/data/repos" = {
       type = "zfs_fs";
       mountpoint = "/srv/git";
+      options.mountpoint = "legacy";
     };
   };
 
