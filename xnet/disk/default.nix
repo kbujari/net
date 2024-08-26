@@ -40,6 +40,8 @@ in
         Anything more than one disk results in a mirror with each device.
       '';
     };
+
+    extraDatasets = mkOption { };
   };
 
   config = mkIf cfg.enable {
@@ -74,6 +76,7 @@ in
         options = {
           ashift = "12";
           autotrim = "on";
+          mountpoint = "none";
         };
 
         datasets = {
@@ -105,7 +108,7 @@ in
             mountpoint = "/persist/data";
             options.mountpoint = "legacy";
           };
-        };
+        } // cfg.extraDatasets;
       };
     };
   };

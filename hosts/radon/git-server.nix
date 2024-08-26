@@ -2,7 +2,14 @@
   services.gitDaemon = {
     enable = true;
     exportAll = true;
-    basePath = "/persist/data/repos";
+    basePath = "/srv/git";
+  };
+
+  xnet.disk.extraDatasets = {
+    "persist/data/repos" = {
+      type = "zfs_fs";
+      mountpoint = "/srv/git";
+    };
   };
 
   networking.firewall.allowedTCPPorts = [ config.services.gitDaemon.port ];
@@ -10,7 +17,7 @@
   users.groups.git = { };
   users.users."git" = {
     isSystemUser = true;
-    home = "/persist/data/repos";
+    home = "/srv/git";
     initialPassword = "";
     createHome = true;
     shell = "${pkgs.git}/bin/git-shell";
