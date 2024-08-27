@@ -1,7 +1,7 @@
 { outputs, ... }: {
   system.stateVersion = "24.05";
 
-  # boot.zfs.extraPools = [ "radon" ];
+  boot.zfs.extraPools = [ "radon" ];
   networking.firewall.allowedTCPPorts = [ 2049 ];
   services.nfs.server = {
     enable = true;
@@ -23,6 +23,8 @@
 
   imports = [
     outputs.nixosModules.xnet
-    ./git-server.nix
+    ./git-server
+    ./nginx.nix
+    ./jellyfin.nix
   ];
 }
