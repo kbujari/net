@@ -1,4 +1,4 @@
-{ outputs, ... }: {
+{ config, outputs, inputs, ... }: {
   system.stateVersion = "24.05";
 
   boot.zfs.extraPools = [ "radon" ];
@@ -20,11 +20,13 @@
     };
   };
 
+  sops.age.sshKeyPaths = map (key: key.path) config.services.openssh.hostKeys;
 
   imports = [
     outputs.nixosModules.xnet
+    inputs.sops-nix.nixosModules.sops
     ./git-server
-    ./nginx.nix
+    ./nginx
     ./jellyfin.nix
   ];
 }

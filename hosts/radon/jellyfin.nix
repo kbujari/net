@@ -11,11 +11,11 @@
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [
+      intel-compute-runtime
       intel-media-driver
+      intel-media-sdk
       intel-vaapi-driver
       vaapiVdpau
-      intel-compute-runtime
-      intel-media-sdk
     ];
   };
 
@@ -26,11 +26,13 @@
 
   environment.systemPackages = with pkgs; [
     jellyfin
-    jellyfin-web
     jellyfin-ffmpeg
+    jellyfin-web
   ];
 
   services.nginx.virtualHosts."mov.web.4kb.net" = {
+    useACMEHost = "4kb.net";
+    addSSL = true;
     locations."/" = {
       proxyPass = "http://localhost:8096/";
     };

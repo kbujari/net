@@ -46,32 +46,51 @@ in
   services.cgit.main = {
     enable = true;
     scanPath = gitPath;
-    package = pkgs.cgit-pink;
+    package = pkgs.cgit-pink.overrideAttrs (old: {
+      postInstall = old.postInstall or "" + ''
+        cp ${./cgit/cgit.css} $out/cgit/cgit.css
+        cp ${./cgit/responsive.html} $out/cgit/responsive.html
+      '';
+    });
     nginx = {
       virtualHost = "src.web.4kb.net";
       location = "/";
     };
     extraConfig = ''
-      readme=README
-      readme=readme
-      readme=readme.txt
-      readme=README.txt
-      readme=readme.md
-      readme=README.md
+      mimetype.gif=image/gif
+      mimetype.html=text/html
+      mimetype.jpeg=image/jpeg
+      mimetype.jpg=image/jpeg
+      mimetype.pdf=application/pdf
+      mimetype.png=image/png
+      mimetype.svg=image/svg+xml
+      readme=:README
+      readme=:README.md
+      readme=:README.txt
+      readme=:readme
+      readme=:readme.md
+      readme=:readme.txt
     '';
     settings = with config.services.cgit.main.nginx; {
+      # source-filter = "${pkgs.cgit-pink}/lib/cgit/filters/syntax-highlighting.py";
+      about-filter = "${pkgs.cgit-pink}/lib/cgit/filters/about-formatting.sh";
+      clone-url = "http://${virtualHost}/$CGIT_REPO_URL git@${virtualHost}:$CGIT_REPO_URL";
       enable-commit-graph = true;
       enable-http-clone = false;
       enable-index-links = true;
       enable-remote-branches = true;
-      root-title = virtualHost;
-      root-desc = "That which I cannot create, I do not understand";
+      head-include = "${pkgs.cgit-pink}/cgit/responsive.html";
       remove-suffix = true;
+      robots = "noindex, nofollow";
+      root-desc = "What I cannot create, I do not understand";
+      root-title = virtualHost;
       section-from-path = true;
-      clone-url = "http://${virtualHost}/$CGIT_REPO_URL git@${virtualHost}:$CGIT_REPO_URL";
-      about-filter = "${pkgs.cgit-pink}/lib/cgit/filters/about-formatting.sh";
-      source-filter = "${pkgs.cgit-pink}/lib/cgit/filters/syntax-highlighting.py";
       snapshots = "tar.gz tar.bz2 zip";
     };
+  };
+
+  services.nginx.virtualHosts."${config.services.cgit.main.nginx.virtualHost}" = {
+    useACMEHost = "4kb.net";
+    addSSL = true;
   };
 }
