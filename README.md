@@ -1,10 +1,4 @@
-```
-                    _
-__  __ _ __    ___ | |_
-\ \/ /| '_ \  / _ \| __|
- >  < | | | ||  __/| |_
-/_/\_\|_| |_| \___| \__|
-```
+# `xnet`
 
 Purely declarative infrastructure for my personal testing lab and computers!
 Rather than individually managing a collection of computers,
