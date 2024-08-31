@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: &app redlib
+  labels:
+    app: *app
+spec:
+  selector:
+    matchLabels:
+      app: *app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: *app
+    spec:
+      containers:
+        - name: *app
+          image: quay.io/redlib/redlib:sha-3677ca1
+          env:
+            - name: REDLIB_ROBOTS_DISABLE_INDEXING
+              value: "on"
+            - name: REDLIB_DEFAULT_SHOW_NSFW
+              value: "on"
+            - name: REDLIB_DEFAULT_COMMENT_SORT
+              value: "top"
+            - name: REDLIB_DEFAULT_USE_HLS
+              value: on
+            - name: REDLIB_DEFAULT_THEME
+              value: "rosebox"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+      restartPolicy: Always

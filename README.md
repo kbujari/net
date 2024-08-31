@@ -15,7 +15,3 @@ alongside extra configuration for services specific to that node.
 
 The main goals are to keep everything simple and run as lean as possible.
 To this point, outside dependencies are strictly evaluated before being included.
-Here's an updated list:
-
-- [nixpkgs](https://github.com/NixOS/nixpkgs)
-- [Porkbun DNS](https://porkbun.com)

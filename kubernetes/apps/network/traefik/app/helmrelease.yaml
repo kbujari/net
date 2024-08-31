@@ -1,0 +1,63 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: traefik
+      version: 30.0.2
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    # additionalArguments:
+      # - "--certificatesresolvers.letsencrypt.acme.email=certs@4kb.net"
+    service:
+      annotations:
+        io.cilium/lb-ipam-ips: 192.168.2.13
+    # deployment:
+    #   initContainers:
+    #     - name: volume-permissions
+    #       image: busybox:1.35
+    #       command:
+    #         ["sh", "-c", "touch /data/acme.json; chmod -v 600 /data/acme.json"]
+    #       volumeMounts:
+    #         - mountPath: /data
+    #           name: data
+    # podSecurityContext:
+    #   fsGroup: 65532
+    #   fsGroupChangePolicy: "OnRootMismatch"
+    # persistence:
+    #   enabled: true
+    # certResolvers:
+    #   letsencrypt:
+    #     dnsChallenge:
+    #       provider: porkbun
+    #     domain:
+    #       main: 4kb.net
+    #       sans:
+    #         - "*.4kb.net"
+    #     storage: /data/acme.json
+    # env:
+    #   - name: PORKBUN_API_KEY
+    #     valueFrom:
+    #       secretKeyRef:
+    #         name: porkbun
+    #         key: api-key
+    #   - name: PORKBUN_SECRET_API_KEY
+    #     valueFrom:
+    #       secretKeyRef:
+    #         name: porkbun
+    #         key: secret-api-key

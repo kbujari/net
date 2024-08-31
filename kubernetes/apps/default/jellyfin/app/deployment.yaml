@@ -1,0 +1,55 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-config
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: &app jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: *app
+  securityContext:
+    runAsUser: 2000
+    runAsGroup: 2000
+  template:
+    metadata:
+      labels:
+        app: *app
+    spec:
+      containers:
+        - name: *app
+          image: docker.io/jellyfin/jellyfin:10.9.8
+          ports:
+            - protocol: TCP
+              containerPort: 8096
+          env:
+            - name: TZ
+              value: "America/Toronto"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: media
+              mountPath: /mnt/media
+              readOnly: true
+      nodeSelector:
+        intel.feature.node.kubernetes.io/gpu: "true"
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: jellyfin-config
+        - name: media
+          nfs:
+            server: 192.168.2.113
+            path: /radon/media
+            readOnly: true

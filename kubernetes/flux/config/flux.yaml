@@ -1,0 +1,106 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: flux-manifests
+  namespace: flux-system
+spec:
+  interval: 10m
+  url: oci://ghcr.io/fluxcd/flux-manifests
+  ref:
+    tag: v2.3.0
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: flux
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./
+  prune: true
+  wait: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-manifests
+  patches:
+    - patch: | # Remove the network policies
+        $patch: delete
+        apiVersion: networking.k8s.io/v1
+        kind: NetworkPolicy
+        metadata:
+          name: not-used
+      target:
+        group: networking.k8s.io
+        kind: NetworkPolicy
+
+    - patch: | # Increase parallel reconciliations
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --concurrent=12
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --kube-api-qps=500
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --kube-api-burst=1000
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --requeue-dependency=5s
+      target:
+        kind: Deployment
+        name: "(kustomize-controller|helm-controller|source-controller)"
+
+    - patch: | # Bump resource limits
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: not-used
+        spec:
+          template:
+            spec:
+              containers:
+                - name: manager
+                  resources:
+                    limits:
+                      memory: 2Gi
+      target:
+        kind: Deployment
+        name: "(kustomize-controller|helm-controller|source-controller)"
+
+    - patch: | # Enable in-memory kustomize builds
+        - op: replace
+          path: /spec/template/spec/volumes/0
+          value:
+            name: temp
+            emptyDir:
+              medium: Memory
+      target:
+        kind: Deployment
+        name: "kustomize-controller"
+
+    - patch: | # Enable drift detection for HelmReleases and set logs to debug
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --feature-gates=DetectDrift=true,CorrectDrift=false
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --log-level=debug
+      target:
+        kind: Deployment
+        name: helm-controller
+
+    - patch: | # Enable Helm near OOM detection
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --feature-gates=OOMWatch=true
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --oom-watch-memory-threshold=95
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --oom-watch-interval=500ms
+      target:
+        kind: Deployment
+        name: helm-controller
