@@ -11,6 +11,8 @@ in
     };
   };
 
+  systemd.tmpfiles.rules = [ "Z /srv/git 0755 git git - -" ];
+
   services.sanoid = {
     enable = true;
     datasets."zroot/persist/data/repos" = {

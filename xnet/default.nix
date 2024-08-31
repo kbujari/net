@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ lib, ... }:
 let
   inherit (lib) mkDefault;
 in
@@ -6,7 +6,7 @@ in
   imports = [
     ./disk
     ./net
-    # ./monitoring
+    ./monitoring
     ./users
   ];
 

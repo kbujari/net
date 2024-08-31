@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }: {
 
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
@@ -21,8 +21,18 @@
 
   services.jellyfin = {
     enable = true;
-    dataDir = "/persist/data/jellyfin";
+    cacheDir = "${config.services.jellyfin.dataDir}/cache";
   };
+
+  systemd.tmpfiles.rules =
+    let
+      path = "/persist/data/jellyfin";
+      app = config.services.jellyfin;
+    in
+    [
+      "d ${path} 0700 ${app.user} ${app.group} -"
+      "L+ ${app.dataDir} 0700 - - - ${path}"
+    ];
 
   environment.systemPackages = with pkgs; [
     jellyfin

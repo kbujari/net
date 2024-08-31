@@ -54,7 +54,7 @@ in
 
     boot = {
       kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-      kernelParams = [ "nohibernate" ];
+      kernelParams = [ "nohibernate" "elevator=none" ];
       supportedFilesystems = [ "vfat" "zfs" ];
       zfs.devNodes = "/dev/disk/by-partuuid";
     };

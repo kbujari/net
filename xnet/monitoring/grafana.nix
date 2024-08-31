@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 {
   services.grafana.provision = {
     enable = true;
@@ -29,8 +29,10 @@
 
   services.grafana = {
     enable = true;
-    settings.server.domain = "grafana.4kb.net";
-    settings.server.protocol = "socket";
+    settings.server = {
+      domain = "grafana.web.4kb.net";
+      protocol = "socket";
+    };
     settings."auth.anonymous" = {
       enabled = true;
       org_role = "Admin";
@@ -41,8 +43,10 @@
   systemd.services.nginx.serviceConfig.ProtectHome = false;
 
   services.nginx.virtualHosts."${config.services.grafana.settings.server.domain}" = {
+    useACMEHost = "4kb.net";
+    addSSL = true;
     locations."/" = {
-      proxyPass = "http://unix:/${toString config.services.grafana.settings.server.socket}/";
+      proxyPass = "http://unix:/${toString config.services.grafana.settings.server.socket}";
     };
   };
 }

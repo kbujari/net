@@ -33,7 +33,7 @@
       };
     };
     certs."4kb.net".extraDomainNames = [
-      "www.4kb.net"
+      "*.4kb.net"
       "*.web.4kb.net"
     ];
   };
