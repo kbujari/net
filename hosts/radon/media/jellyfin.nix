@@ -1,14 +1,14 @@
 { config, pkgs, ... }: {
 
-  nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-  };
-
   boot.kernelParams = [
     "i915.enable_guc=2"
   ];
 
-  hardware.opengl = {
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-compute-runtime
@@ -21,18 +21,16 @@
 
   services.jellyfin = {
     enable = true;
+    dataDir = "/persist/data/jellyfin";
     cacheDir = "${config.services.jellyfin.dataDir}/cache";
   };
 
-  systemd.tmpfiles.rules =
-    let
-      path = "/persist/data/jellyfin";
-      app = config.services.jellyfin;
-    in
-    [
-      "d ${path} 0700 ${app.user} ${app.group} -"
-      "L+ ${app.dataDir} 0700 - - - ${path}"
-    ];
+  users.groups.media.members = [ config.services.jellyfin.user ];
+
+  systemd.tmpfiles.rules = with config.services.jellyfin; [
+    "d ${dataDir} 0700 ${user} ${group} -"
+    "Z ${dataDir} 0700 ${user} ${group} - -"
+  ];
 
   environment.systemPackages = with pkgs; [
     jellyfin

@@ -2,7 +2,7 @@
   description = "Internal network and programming lab";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     disko.url = "github:nix-community/disko/v1.6.1";
     disko.inputs.nixpkgs.follows = "nixpkgs";

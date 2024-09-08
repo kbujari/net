@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 let
   inherit (lib) mkDefault;
 in
@@ -12,6 +12,8 @@ in
 
   i18n.defaultLocale = mkDefault "en_US.UTF-8";
   time.timeZone = mkDefault "America/Toronto";
+
+  environment.systemPackages = with pkgs; [ vim git ];
 
   nix.settings = {
     auto-optimise-store = true;

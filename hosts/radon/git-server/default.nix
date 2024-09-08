@@ -73,10 +73,10 @@ in
       readme=:readme.md
       readme=:readme.txt
     '';
-    settings = with config.services.cgit.main.nginx; {
+    settings = let inherit (config.services.cgit.main.nginx) virtualHost; in {
       # source-filter = "${pkgs.cgit-pink}/lib/cgit/filters/syntax-highlighting.py";
       about-filter = "${pkgs.cgit-pink}/lib/cgit/filters/about-formatting.sh";
-      clone-url = "http://${virtualHost}/$CGIT_REPO_URL git@${virtualHost}:$CGIT_REPO_URL";
+      clone-url = "https://${virtualHost}/$CGIT_REPO_URL git@${virtualHost}:$CGIT_REPO_URL";
       enable-commit-graph = true;
       enable-http-clone = false;
       enable-index-links = true;
@@ -91,6 +91,7 @@ in
     };
   };
 
+  users.groups.git.members = [ "nginx" ];
   services.nginx.virtualHosts."${config.services.cgit.main.nginx.virtualHost}" = {
     useACMEHost = "4kb.net";
     addSSL = true;

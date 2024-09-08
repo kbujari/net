@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ config, pkgs, ... }: {
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
   services.nginx = {
@@ -7,6 +7,16 @@
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
+
+    virtualHosts."_" = {
+      useACMEHost = "4kb.net";
+      addSSL = true;
+      default = true;
+      locations."/" = {
+        root = pkgs.writeTextDir "index.html" (builtins.readFile ./landing-page/index.html);
+        index = "index.html";
+      };
+    };
   };
 
   sops.secrets = {
@@ -40,9 +50,7 @@
 
   systemd.tmpfiles.rules = [
     "d /certs/acme 0750 acme acme -"
+    "Z /certs/acme 0750 acme acme - -"
     "L+ /var/lib/acme - - - - /certs/acme"
   ];
-
-
-  imports = [ ./sites/4kb.net.nix ];
 }

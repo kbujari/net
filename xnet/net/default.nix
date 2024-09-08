@@ -1,4 +1,4 @@
-{ config, options, lib, ... }:
+{ config, lib, ... }:
 let
   cfg = config.xnet.net;
   inherit (lib) mkOption mkIf types;

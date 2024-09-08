@@ -15,6 +15,7 @@ let path = "/persist/data/radicale"; in {
 
   systemd.tmpfiles.rules = [
     "d ${path} 0700 radicale radicale -"
+    "Z ${path} 0700 radicale radicale - -"
   ];
 
   services.nginx.virtualHosts."dav.web.4kb.net" = {

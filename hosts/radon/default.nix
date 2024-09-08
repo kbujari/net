@@ -1,7 +1,6 @@
 { config, outputs, inputs, ... }: {
   system.stateVersion = "24.05";
 
-  boot.zfs.extraPools = [ "radon" ];
   networking.firewall.allowedTCPPorts = [ 2049 ];
   services.nfs.server = {
     enable = true;
@@ -22,11 +21,23 @@
 
   sops.age.sshKeyPaths = map (key: key.path) config.services.openssh.hostKeys;
 
+  boot.zfs.extraPools = [ "radon" ];
+  services.nginx.virtualHosts."cdn.4kb.net" = {
+    useACMEHost = "4kb.net";
+    addSSL = true;
+    locations."/" = {
+      alias = "/radon/files/srv/";
+      extraConfig = ''
+        autoindex on;
+      '';
+    };
+  };
+
   imports = [
     outputs.nixosModules.xnet
     inputs.sops-nix.nixosModules.sops
     ./git-server
     ./nginx
-    ./jellyfin.nix
+    ./media
   ];
 }
