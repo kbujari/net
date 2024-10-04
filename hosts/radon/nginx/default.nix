@@ -30,6 +30,20 @@
     };
   };
 
+  sops.templates."ddclient.conf" = {
+    content = ''
+      protocol=porkbun
+      apikey=${config.sops.placeholder."porkbun/api-key"}
+      secretapikey=${config.sops.placeholder."porkbun/secret-api-key"}
+      a-tor-ca.4kb.net
+    '';
+  };
+
+  services.ddclient = {
+    enable = true;
+    configFile = config.sops.templates."ddclient.conf".path;
+  };
+
   users.users.nginx.extraGroups = [ "acme" ];
   security.acme = {
     acceptTerms = true;
