@@ -47,6 +47,12 @@ which I prefer for true network load balancing compared to L2 ARP services.
 
 ### Rotating secrets
 
+Fetch key from remote machine:
+
+```
+ssh root@host "cat <ssh pubkey>" | nix-shell -p ssh-to-age --run "ssh-to-age"
+```
+
 Once public keys and creation rules are set up in `.sops.yaml`:
 
 ```
