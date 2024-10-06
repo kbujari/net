@@ -1,7 +1,7 @@
 { config, ... }:
 let path = "/persist/data/radicale"; in {
   services.radicale = {
-    enable = true;
+    enable = false;
     settings = {
       server.hosts = [ "127.0.0.1:5232" ];
       storage.filesystem_folder = "${path}/collections";

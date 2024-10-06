@@ -7,7 +7,7 @@ Each node shares the same code,
 tuned by several parameters to match its hardware,
 alongside extra configuration for services specific to that node.
 
-## Goals
+### Goals
 
 The entire lab should be **reproducible** given the instructions in this repo.
 That is, all services and infrastructure must be completely defined here,
@@ -22,7 +22,7 @@ That said, I try to keep the all configurations flexible to support potentially 
 Performance is key! Of course, I don't require huge throughput from my personal workloads,
 but creating lean, performant systems on regular hardware leads to understanding how to design architectures that run real workloads.
 
-### NixOS
+## NixOS
 
 Nix is fundamentally the heart of the lab,
 managing state and any applications that don't need to be clustered.
@@ -32,15 +32,38 @@ For now, only servers are configured with Nix,
 but in the near future I hope to extend the lab network with my personal computers as well,
 to experiment with GPU computing.
 
-### Kubernetes
+## Kubernetes
 
 As part of research and performance testing,
-I maintain a personal K8s cluster.
-Initially this ran on the popular [k3s](https://k3s.io/),
-but I have since moved to [Talos](https://www.talos.dev/),
-running on a mix of virtual machines and bare-metal to experiment with PXE booting and stateless computing.
+I maintain a personal K8s cluster hosted by [Talos](https://www.talos.dev/).
+It runs on a mix of virtual machines and bare-metal to experiment with PXE booting and stateless computing.
 
 FluxCD reads this git repository as a source of truth for reconciling cluster resources.
 Cilium CNI was chosen for its performance and to experiment with eBPF networking rather than traditional `iptables`.
 Cilium also natively supports BGP for load balancing services,
 which I prefer for true network load balancing compared to L2 ARP services.
+
+## Helpful
+
+### Rotating secrets
+
+Once public keys and creation rules are set up in `.sops.yaml`:
+
+```
+sops updatekeys <FILE>
+```
+
+### Install from scratch
+
+```
+nix run --extra-experimental-features 'nix-command flakes' \
+    'github:nix-community/disko#disko-install' -- \
+    --flake 'github:kbujari/net#radon' \
+    --disk nvme0n1 /dev/nvme0n1"
+```
+
+### Deploy over SSH
+
+```
+nix run nixpkgs#deploy-rs .#radon
+```

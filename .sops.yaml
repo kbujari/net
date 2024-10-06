@@ -1,10 +1,10 @@
 ---
 keys:
   - &user_kleidi age15f6mcwjjav4z757kad8wksalgemael364wwxz7qsral5gmjzmd2qre78d5
-  - &machine_radon age1zqz5cpgwe2fcl5dhxfcfdj52ljq89t8entc2lsyd6qzct2suevxsnnw4r2
+  - &machine_radon age1nw5yklj57fegqllhqfjuy9f89cx9f9p0xptw9uv58rzleh8fdyssv0zyp4
 
 creation_rules:
-  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: (hosts|xnet)/.*\.ya?ml$
     key_groups:
       - age:
           - *user_kleidi
