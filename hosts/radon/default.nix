@@ -11,6 +11,7 @@
   xnet = {
     net = {
       interface = "enp2s0";
+      addr = 1;
       sshd = true;
     };
     disk = {

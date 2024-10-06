@@ -2,7 +2,7 @@
 let
   cfg = config.xnet.net;
   inherit (lib) mkOption mkIf types;
-  prefix = "10.24.4";
+  prefix = "10.26.4";
 in
 {
   options.xnet.net = {
@@ -12,6 +12,12 @@ in
       description = "Network interface connecting to xnet.";
     };
 
+    addr = mkOption {
+      type = types.ints.between 0 255;
+      description = "Final octet for xnet address.";
+      example = 4;
+    };
+
     sshd = mkOption {
       type = types.bool;
       default = true;
@@ -19,6 +25,9 @@ in
     };
   };
 
+  # TODO:
+  #   - Add assertion that each address is only used once across config
+  #   - Add each host to each other hosts dns configuration
   config = mkIf (builtins.stringLength cfg.interface > 0) {
     networking.vlans = {
       "${cfg.interface}.4" = {
@@ -29,7 +38,7 @@ in
 
     networking.interfaces = {
       "${cfg.interface}.4".ipv4.addresses = [{
-        address = "${prefix}.1";
+        address = "${prefix}.${toString cfg.addr}";
         prefixLength = 24;
       }];
     };
