@@ -51,9 +51,15 @@ in
         UsePAM = false;
         PermitRootLogin = "prohibit-password";
       };
-      extraConfig = ''
-        PubkeyAcceptedKeyTypes sk-ssh-ed25519-cert-v01@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519
-      '';
+      extraConfig =
+        let
+          p = [
+            "sk-ssh-ed25519-cert-v01@openssh.com"
+            "ssh-ed25519-cert-v01@openssh.com"
+            "ssh-ed25519"
+          ];
+        in
+        "PubkeyAcceptedKeyTypes ${lib.strings.concatStringsSep "," p}";
       hostKeys = [{
         path = "/certs/ssh/ssh_host_ed25519_key";
         type = "ed25519";

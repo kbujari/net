@@ -1,4 +1,4 @@
-{ config, outputs, inputs, ... }: {
+{ config, lib, inputs, outputs, ... }: {
   system.stateVersion = "24.05";
 
   networking.firewall.allowedTCPPorts = [ 2049 ];
@@ -32,6 +32,15 @@
         autoindex on;
       '';
     };
+  };
+
+  systemd.tmpfiles.rules = [
+    "Z /radon/backup 0775 root backup - -"
+  ];
+
+  services.syncoid = {
+    enable = lib.mkDefault true;
+    commands."zroot/persist/data".target = "radon/backup/machines/radon/persist";
   };
 
   imports = [

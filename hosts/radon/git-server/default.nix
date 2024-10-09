@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   gitPath = "/srv/git";
 in
@@ -14,7 +14,7 @@ in
   systemd.tmpfiles.rules = [ "Z /srv/git 0755 git git - -" ];
 
   services.sanoid = {
-    enable = true;
+    enable = lib.mkDefault true;
     datasets."zroot/persist/data/repos" = {
       autosnap = true;
       autoprune = true;
@@ -25,10 +25,16 @@ in
     };
   };
 
+  services.syncoid = {
+    enable = lib.mkDefault true;
+    group = lib.mkDefault "backup";
+    commands."zroot/persist/data/repos".target = "radon/backup/repo/git";
+  };
+
   users.users.git = {
     isSystemUser = true;
     createHome = true;
-    packages = with pkgs; [ git ];
+    packages = with pkgs; [ git bash ];
     home = gitPath;
     shell = "${pkgs.git}/bin/git-shell";
     initialPassword = "";

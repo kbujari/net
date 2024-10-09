@@ -111,5 +111,10 @@ in
         } // cfg.extraDatasets;
       };
     };
+
+    users.groups.backup = {
+      members = [ config.services.syncoid.group ];
+      gid = 2001;
+    };
   };
 }
