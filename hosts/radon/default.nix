@@ -49,5 +49,6 @@
     ./git-server
     ./nginx
     ./media
+    ./tvwg.nix
   ];
 }

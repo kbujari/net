@@ -18,6 +18,7 @@
     let
       inherit (self) inputs outputs;
       inherit (nixpkgs.lib) nixosSystem;
+      inherit (nixpkgs.lib.nixosModules) xnet;
 
       forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" "riscv-linux" ];
     in
@@ -30,8 +31,13 @@
       nixosConfigurations = {
         radon = nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = { inherit inputs outputs xnet; };
           modules = [ ./hosts/radon ];
+        };
+        t480 = nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs outputs xnet; };
+          modules = [ ./hosts/t480 ];
         };
       };
 
