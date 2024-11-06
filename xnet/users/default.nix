@@ -1,4 +1,4 @@
-{ config, lib, ... }: {
+{ config, ... }: {
   imports = [ ./radicale.nix ];
 
   sops.secrets = {

@@ -1,6 +1,6 @@
 { config, ... }: {
   services.sonarr = {
-    enable = true;
+    enable = false;
     dataDir = "/persist/data/sonarr";
   };
 

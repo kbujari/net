@@ -16,7 +16,7 @@
     };
     disk = {
       enable = true;
-      devices = [ "nvme0n1" ];
+      devices = "nvme0n1";
     };
   };
 
@@ -43,12 +43,14 @@
     commands."zroot/persist/data".target = "radon/backup/machines/radon/persist";
   };
 
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
   imports = [
     outputs.nixosModules.xnet
     inputs.sops-nix.nixosModules.sops
     ./git-server
     ./nginx
     ./media
-    ./tvwg.nix
+    # ./tvwg.nix
   ];
 }

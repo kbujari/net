@@ -33,12 +33,9 @@ in
       description = "HostID used by ZFS, default is auto-generated from network hostname.";
     };
 
-    devices = mkOption {
-      type = types.listOf types.str;
-      description = ''
-        Underlying devices that build the root ZFS pool.
-        Anything more than one disk results in a mirror with each device.
-      '';
+    device = mkOption {
+      type = types.str;
+      description = "Underlying device that build the root ZFS pool.";
     };
 
     extraDatasets = mkOption { };
@@ -53,26 +50,19 @@ in
     };
 
     boot = {
-      kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
       kernelParams = [ "nohibernate" "elevator=none" ];
       supportedFilesystems = [ "vfat" "zfs" ];
       zfs.devNodes = "/dev/disk/by-partuuid";
     };
 
-    disko.devices = (
-      if (builtins.length cfg.devices) == 1 then
-        import ./layouts/single.nix (builtins.head cfg.devices)
-      else
-        import ./layouts/mirror.nix cfg.devices
-    ) // {
+    disko.devices = (import ./layouts/single.nix cfg.device) // {
       nodev."/" = {
         fsType = "tmpfs";
         mountOptions = [ "defaults" "size=2G" "mode=755" ];
       };
 
-      zpool."zroot" = {
+      zpool.zroot = {
         type = "zpool";
-        mode = mkIf (builtins.length cfg.devices > 1) "mirror";
         options = {
           ashift = "12";
           autotrim = "on";

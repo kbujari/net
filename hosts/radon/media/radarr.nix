@@ -1,6 +1,6 @@
 { config, ... }: {
   services.radarr = {
-    enable = true;
+    enable = false;
     dataDir = "/persist/data/radarr";
   };
 
