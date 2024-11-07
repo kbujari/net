@@ -16,7 +16,7 @@
     };
     disk = {
       enable = true;
-      devices = "nvme0n1";
+      device = "nvme0n1";
     };
   };
 

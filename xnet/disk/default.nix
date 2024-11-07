@@ -66,7 +66,6 @@ in
         options = {
           ashift = "12";
           autotrim = "on";
-          canmount = "off";
         };
 
         datasets = {
